@@ -127,10 +127,45 @@ Primes generatePrimes(int nbOfBits)
 		generatePrime(nbOfBits));
 }
 
+//le message clair est un entier
 int chiffrer(int m, int e, int n)
 {
 	return modExp(m,e,n);
 } 
+
+//le message clair est une chaine de caracteres ASCII
+std::string chiffrer(std::string m, int e, int n)
+{
+	const int TAILLE_BLOC = 3;
+	std::string s = "";
+	std::string res = "";
+	
+	//codage en blocs 3 (code ascii)
+	for(char c : m)
+	{
+		std::string ascii = std::to_string(c);
+		std::string ascii_filled = 
+			std::string(TAILLE_BLOC - ascii.length(), '0') + ascii;
+		s += ascii_filled;
+	}
+	
+	//regroupement en blocs de 4 pour empecher les attaques 
+	//par analyse des fréquences
+	for(int i=1 ; i<=s.size() ; ++i)
+	{
+		if(i%4 == 0)
+		{
+			res += s.substr(4);	//on append les 4 premiers de s a res
+			s.erase(4);	//puis on les erase de s
+		}
+	}
+	//mettre le reste avec un padding de 0s si necessaire
+	std::string reste_filled = std::string(4 - s.length(), '0') + s;
+	res += reste_filled;
+	
+	std::cout<<reste_filled<<std::endl;
+	std::cout<<res<<std::endl;
+}
 
 int dechiffrer(int x, int d, int n)
 {
@@ -195,8 +230,9 @@ std::pair<int,int> calculate_e_and_d(int phin)
 int main()
 {	
 	int p,q,n,phin,e,d,m;
+	std::string mm;
 	
-	Primes primes = generatePrimes(6);
+	Primes primes = generatePrimes(10);
 	
 	p = primes.first;
 	q = primes.second;
@@ -215,14 +251,19 @@ int main()
 		std::cout<<"\nEcrivez le message (nombre) à chiffrer (doit être inférieur à n="
 			<<n<<") :"<<std::endl;
 		std::cin>>m;
+		//std::cin>>mm;
 	}
 	while(m > n);
 	
 	std::cout<<"-----------------------"<<std::endl;
 	std::cout<<"Le message clair est : "<<m<<std::endl;
+	//std::cout<<"Le message clair est : "<<mm<<std::endl;
 	
 	std::cout<<"\nChiffrement du message "<<m
 		<<" avec la clé publique ("<<e<<","<<n<<") :"<<std::endl;
+		//std::cout<<"\nChiffrement du message "<<mm
+		//<<" avec la clé publique ("<<e<<","<<n<<") :"<<std::endl;
+	//std::string encrypted = chiffrer(mm,e,n);
 	int encrypted = chiffrer(m,e,n);
 	std::cout<<"x="<<encrypted<<std::endl;
 	

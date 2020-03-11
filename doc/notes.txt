@@ -1,0 +1,18 @@
+Faudrait que je fasse le 5.
+	Faire un texte alphabétique en premier (26 lettres).
+		=> faire des blocs de 2.
+	Pour pouvoir chiffrer du texte encodé en ASCII, on fait
+		des blocs de 3 (car code ASCII ne dépasse jamais 3 digits)
+____________________________
+
+un programme pour générer une clé publique et une clé privé
+	(dans 2 fichiers respectifs)
+
+un programme pour encrypter un message avec une clé publique
+
+un programme pour decrypter un message avec une clé privé
+
+pouvoir utiliser mon programme avec netcat et des redirections
+
+Gérer les exceptions si nombres trop grands pour type c++
+
