@@ -17,7 +17,7 @@ pouvoir utiliser mon programme avec netcat et des redirections
 Gérer les exceptions si nombres trop grands pour type c++
 
 
-gen_keys *rep*
-encrypt *msg* *@clePub*
-decrypt *msg* *@clePriv*
+gen_keys					#les fichiers keys s'enregistreront dans le répertoire d'où a été lancé le prog
+encrypt *msg* *@clePub*		#pour passer le contenu d'un fichier en param utiliser : "$(< pub.key)"
+decrypt *msg* *@clePriv*	#pour passer le contenu d'un fichier en param utiliser : "$(< priv.key)"
 

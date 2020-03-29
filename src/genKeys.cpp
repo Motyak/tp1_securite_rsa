@@ -14,7 +14,7 @@ std::array<std::pair<int,llong>,2> generateKeys();
         llong generatePrime(int nbOfBits);
         bool isPrime(int n, int accuracy=2);
         bool millerTest(int d, int n);
-        int modExp(llong a, llong b, llong n);
+        int modExp(int a, int b, int n);
 
     std::pair<int,int> calculate_e_and_d(int phin);
         std::pair<int,int> getfirstPairFactorization(std::vector<int> candidates);
@@ -35,7 +35,7 @@ int main()
 }
 
 //a^b mod n
-int modExp(llong a, llong b, llong n)
+int modExp(int a, int b, int n)
 {
 	//algo expo rapide/exponential squaring
 	
