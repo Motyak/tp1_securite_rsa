@@ -16,3 +16,8 @@ pouvoir utiliser mon programme avec netcat et des redirections
 
 Gérer les exceptions si nombres trop grands pour type c++
 
+
+gen_keys *rep*
+encrypt *msg* *@clePub*
+decrypt *msg* *@clePriv*
+
