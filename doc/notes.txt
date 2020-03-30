@@ -36,7 +36,12 @@ en vérifiant avec un calcul pgcd (algorithme d'Euclide étendu),
 et de calculer d à partir de e, en utilisant l'inversion modulaire,
 je calcule directement une paire e, d.
 
-
+0)On a comme message clair un texte : "Hello".
+1)On remplace chaque caractère par son code ASCII, et on les append dans une chaine initiallement vide.
+	(De 0 à 127)
+2)On créé des blocs de taille 4 en partant de la fin de la chaine, on convertit en int.
+3)On chiffre chaque bloc avec la clé publique.
+4)On retourne une chaine avec tous les blocs chiffrés à la suite, séparés d'un espace.
 
 
 

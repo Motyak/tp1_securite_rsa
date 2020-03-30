@@ -1,28 +1,30 @@
 #include <iostream>     //std::cout
 #include <algorithm>    //std::find_if
-#include <string>       //std::stoi
+#include <string>       //std::stoi std::to_string
+#include <vector>       //std::vector
 
 using llong = long long;
 
 std::pair<int,llong> getKeyFromString(std::string key);
-int chiffrer(int m, std::pair<int,llong> pubKey);
-    int modExp(int a, int b, int n);
+std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey);
+    int chiffrer(int m, std::pair<int,llong> pubKey);
+        int modExp(int a, int b, int n);
 
-    bool validKeyFormat(std::string key);
-    bool is_number(const std::string& s);
+bool validKeyFormat(std::string key);
+bool is_number(const std::string& s);
 
 // g++ -o bin/encrypt src/encrypt.cpp && bin/encrypt 1000 "$(< pub.key)"
 int main(int argc, char* argv[])
 {
-    if(argc != 3 || !is_number(argv[1]) || !validKeyFormat(argv[2]))
+    if(argc != 3 || !validKeyFormat(argv[2]))
     {
         std::cout << "Syntaxe : encrypt *msg* *cle_publique*" << std::endl;
-        std::cout << "\t'msg' doit être un entier positif" << std::endl;
         std::cout << "\t'cle_publique' doit avoir comme format : 'e,n'" << std::endl;
         return -1;
     }
 
-    std::cout << chiffrer(std::stoi(argv[1]), getKeyFromString(argv[2])) << std::endl;
+    const int TAILLE_BLOC = 4;  //1 de plus que necessaire, ASCII -> [0-127]
+    std::cout << chiffrer(argv[1], TAILLE_BLOC, getKeyFromString(argv[2])) << std::endl;
 
     return 0;
 }
@@ -77,8 +79,7 @@ int modExp(int a, int b, int n)
 //le message clair est un entier
 int chiffrer(int m, std::pair<int,llong> pubKey)
 {
-    int e = pubKey.first;
-    int n = pubKey.second;
+    int e = pubKey.first, n = pubKey.second;
     if(m >= n)
     {
         std::cout << "Le message à chiffrer doit être plus petit que n=" << n << std::endl;
@@ -86,6 +87,52 @@ int chiffrer(int m, std::pair<int,llong> pubKey)
         return -1;
     }
 	return modExp(m, e, n);
+}
+
+//le message clair est un string
+std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
+{
+    std::vector<int> blocs;
+    std::string strMsg = "";
+    for(char c : m)
+        strMsg.append(std::to_string(c));
+
+    std::string blocTmp = "";
+    int i = strMsg.size();
+    int c = 0;
+    int pos = 0;
+    while(i >= 0)
+    {
+        --i;
+        pos = c % tailleBloc;
+        // ca fait 0 1 2 3, si pos == 0, alors on fait (++) + une nouvelle chaine, sinon on append
+        if(pos == 0 && !blocTmp.empty())
+        {
+            // ajout du bloc précédent
+            blocs.push_back(std::stoi(blocTmp));
+            blocTmp = "";
+        }
+        if(i > -1)
+        {
+            blocTmp = strMsg[i] + blocTmp;
+            ++c;
+        }
+    }
+
+    // ajout du reste
+    if(pos != 0)
+        blocs.push_back(std::stoi(blocTmp));
+
+
+    // on chiffre les blocs et on les append dans une chaine resultat, en les separant par des espaces
+    std::string res = "";
+    for(int i = blocs.size() - 1 ; i > 0 ; --i)
+    {
+        res.append(std::to_string(chiffrer(blocs[i], pubKey)) + " ");
+    }
+    res.append(std::to_string(chiffrer(blocs[0], pubKey)));
+    
+    return res;
 }
 
 //on suppose que le string est conforme
