@@ -20,6 +20,7 @@ std::array<std::pair<int,llong>,2> generateKeys();
         std::pair<int,int> getfirstPairFactorization(std::vector<int> candidates);
         std::vector<int> calculatePrimeFactors(int n);
         std::vector<int> calculateCandidates(int phin);
+        // int modInverse(int e, int phin);
 
 void saveKeysToFiles(std::array<std::pair<int,llong>,2> keys);
 
@@ -124,6 +125,15 @@ std::pair<llong,llong> generatePrimes(int nbOfBits)
 	return std::make_pair(generatePrime(nbOfBits),
 		generatePrime(nbOfBits));
 }
+
+// // calculer d tel que d * e mod phi(n) = 1
+// int modInverse(int e, int phin) 
+// { 
+//     e = e%phin; 
+//     for (int d=1;d<phin;++d) 
+//        if ((e*d) % phin == 1) 
+//           return d; 
+// }
 
 std::vector<int> calculateCandidates(int phin)
 {

@@ -21,3 +21,27 @@ gen_keys					#les fichiers keys s'enregistreront dans le répertoire d'où a ét
 encrypt *msg* *@clePub*		#pour passer le contenu d'un fichier en param utiliser : "$(< pub.key)"
 decrypt *msg* *@clePriv*	#pour passer le contenu d'un fichier en param utiliser : "$(< priv.key)"
 
+____________________________
+
+Faire le chiffrement/dechiffrement de messages ASCII.
+Faire un makefile ou script equiv pour build les bin.
+
+
+
+
+Expliquer chaque fonction, la procédure pour générer les clés, chiffrer, dechiffrer.
+
+Moi, plutot que de generer un e qui se doit d'être premier avec phi(n), 
+en vérifiant avec un calcul pgcd (algorithme d'Euclide étendu), 
+et de calculer d à partir de e, en utilisant l'inversion modulaire,
+je calcule directement une paire e, d.
+
+
+
+
+
+TODO:
+1)Pouvoir chiffrer/dechiffrer un texte alphabétique (voir ASCII)
+2)Trouver meilleur moyen de generer e et d ?
+3)Pouvoir expliquer les algos utilisés, méthodes, procédures..
+4)Ecrire les protocoles pour les exos 2 et 3
