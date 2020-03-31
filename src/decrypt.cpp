@@ -107,6 +107,8 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
     std::string dec_filled = std::string(tailleBloc - decBlockTmp.length(), '0') + decBlockTmp;
     decrypted.append(dec_filled);
 
+    std::cout<<decrypted<<std::endl;//debug
+
 //2eme partie
 
 
@@ -132,6 +134,7 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
             ++c;
         }
     }
+    blocs.push_back(blocTmp);   //ajout du reste
 
     std::string res = "";
     for(int i = blocs.size() - 1 ; i >= 0 ; --i)
