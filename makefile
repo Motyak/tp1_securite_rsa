@@ -22,7 +22,7 @@ bin/text/decrypt: src/text/decrypt.cpp
 	$(CC) -o bin/text/decrypt src/text/decrypt.cpp
 
 clean:
-	rm -rf $(EXEC)
+	rm -rf bin
 
 # will create all necessary directories after the Makefile is parsed
 $(shell mkdir -p $(DIRS))
