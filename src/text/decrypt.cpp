@@ -13,18 +13,19 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
         bool validKeyFormat(std::string key);
         bool is_number(const std::string& s);
 
-// g++ -o bin/decrypt src/decrypt.cpp && bin/decrypt "45067 57433 36197" "$(< priv.key)"
+// g++ -o bin/text/decrypt src/text/decrypt.cpp && bin/text/decrypt "45067 57433 36197" "$(< priv.key)"
 int main(int argc, char* argv[])
 {
-    // if(argc != 3 || !validKeyFormat(argv[2]))
-    // {
-    //     std::cout << "Syntaxe : encrypt *msg* *cle_privee*" << std::endl;
-    //     std::cout << "\t'cle_privee' doit avoir comme format : 'd,n'" << std::endl;
-    //     return -1;
-    // }
+    if(argc != 3 || !validKeyFormat(argv[2]))
+    {
+        std::cout << "Syntaxe : encrypt *msg* *cle_privee*" << std::endl;
+        std::cout << "\t'cle_privee' doit avoir comme format : 'd,n'" << std::endl;
+        return -1;
+    }
 
     const int TAILLE_BLOC = 4;  //1 de plus que necessaire, ASCII -> [0-127]
     std::cout << dechiffrer(argv[1], TAILLE_BLOC, getKeyFromString(argv[2])) << std::endl;
+    // std::cout<< dechiffrer(std::stoi(argv[1], getKeyFromString(argv[2]))) << std::endl;
 
     return 0;
 }

@@ -13,7 +13,7 @@ std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
 bool validKeyFormat(std::string key);
 bool is_number(const std::string& s);
 
-// g++ -o bin/encrypt src/encrypt.cpp && bin/encrypt test "$(< pub.key)"
+// g++ -o bin/text/encrypt src/text/encrypt.cpp && bin/text/encrypt test "$(< pub.key)"
 int main(int argc, char* argv[])
 {
     if(argc != 3 || !validKeyFormat(argv[2]))
@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
 
     const int TAILLE_BLOC = 4;  //1 de plus que necessaire, ASCII -> [0-127]
     std::cout << chiffrer(argv[1], TAILLE_BLOC, getKeyFromString(argv[2])) << std::endl;
+    // std::cout<< chiffrer(std::stoi(argv[1], getKeyFromString(argv[2]))) << std::endl;
 
     return 0;
 }
