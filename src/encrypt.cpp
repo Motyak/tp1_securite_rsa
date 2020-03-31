@@ -102,9 +102,6 @@ std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
         std::string filled = std::string(tailleAscii - asciiCode.size(), '0') + asciiCode;
         strMsg.append(filled);
     }
-        
-
-    std::cout<<strMsg<<std::endl;//debug
 
     std::string blocTmp = "";
     int i = strMsg.size();
@@ -127,18 +124,10 @@ std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
             ++c;
         }
     }
-    std::cout<<"pre reste="<<std::endl;
-    for(std::string s : blocs)  //debug
-        std::cout<<s<<std::endl;
 
     // ajout du reste
     if(pos != 0)
         blocs.push_back(blocTmp);
-
-        std::cout<<"post reste="<<std::endl;
-    for(std::string s : blocs)  //debug
-        std::cout<<s<<std::endl;
-
 
     // on chiffre les blocs et on les append dans une chaine resultat, en les separant par des espaces
     std::string res = "";
