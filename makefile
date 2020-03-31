@@ -2,6 +2,7 @@ CC=g++
 # CFLAGS=--std=c++11
 SRC=src/genKeys.cpp src/numbers/encrypt.cpp src/numbers/decrypt.cpp src/text/encrypt.cpp src/text/decrypt.cpp
 EXEC=bin/genKeys bin/numbers/encrypt bin/numbers/decrypt bin/text/encrypt bin/text/decrypt
+DIRS=bin bin/numbers bin/text
 
 all: $(EXEC)
 
@@ -22,3 +23,6 @@ bin/text/decrypt: src/text/decrypt.cpp
 
 clean:
 	rm -rf $(EXEC)
+
+# will create all necessary directories after the Makefile is parsed
+$(shell mkdir -p $(DIRS))
