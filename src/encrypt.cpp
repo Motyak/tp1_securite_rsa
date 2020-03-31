@@ -13,7 +13,7 @@ std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
 bool validKeyFormat(std::string key);
 bool is_number(const std::string& s);
 
-// g++ -o bin/encrypt src/encrypt.cpp && bin/encrypt 1000 "$(< pub.key)"
+// g++ -o bin/encrypt src/encrypt.cpp && bin/encrypt test "$(< pub.key)"
 int main(int argc, char* argv[])
 {
     if(argc != 3 || !validKeyFormat(argv[2]))

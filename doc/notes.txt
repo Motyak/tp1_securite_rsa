@@ -44,7 +44,8 @@ je calcule directement une paire e, d.
 4)On retourne une chaine avec tous les blocs chiffrés à la suite, séparés d'un espace.
 
 0)On a comme message cryptée une suite d'entiers dans une chaine.
-1)on dechiffre chaque entier, on garde une chaine en résultat
+1)on dechiffre chaque entier, on garde une chaine en résultat 
+	(remplir avec des zeros si bloc plus petit que 3)
 2)on créer des blocs de 4 en partant de la fin de la chaine (on prend pas le surplus de zero)
 	et on convertit en int.
 3)On remplace ou cast chaque int en char, on retourne un string

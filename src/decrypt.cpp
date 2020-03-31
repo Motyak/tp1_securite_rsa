@@ -13,19 +13,18 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
         bool validKeyFormat(std::string key);
         bool is_number(const std::string& s);
 
-// g++ -o bin/decrypt src/decrypt.cpp && bin/decrypt 207058 "$(< priv.key)"
+// g++ -o bin/decrypt src/decrypt.cpp && bin/decrypt "45067 57433 36197" "$(< priv.key)"
 int main(int argc, char* argv[])
 {
-    // if(argc != 3 || !is_number(argv[1]) || !validKeyFormat(argv[2]))
-    // {
-    //     std::cout << "Syntaxe : encrypt *msg* *cle_privee*" << std::endl;
-    //     std::cout << "\t'msg' doit être un entier positif" << std::endl;
-    //     std::cout << "\t'cle_privee' doit avoir comme format : 'd,n'" << std::endl;
-    //     return -1;
-    // }
+    if(argc != 3 || !validKeyFormat(argv[2]))
+    {
+        std::cout << "Syntaxe : encrypt *msg* *cle_privee*" << std::endl;
+        std::cout << "\t'cle_privee' doit avoir comme format : 'd,n'" << std::endl;
+        return -1;
+    }
 
-    // std::cout << dechiffrer(std::stoi(argv[1]), getKeyFromString(argv[2])) << std::endl;
-    dechiffrer("45067 57433 36197", 3, getKeyFromString("2333,62411"));
+    const int TAILLE_BLOC = 4;  //1 de plus que necessaire, ASCII -> [0-127]
+    std::cout<<dechiffrer(argv[1], TAILLE_BLOC, getKeyFromString(argv[2]))<<std::endl;
 
     return 0;
 }
@@ -85,36 +84,30 @@ int dechiffrer(int x, std::pair<int,llong> privKey)
 
 std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privKey)
 {
-    std::cout<<m<<std::endl;//debug
     std::string decrypted = "";
 
     std::string blocTmp = "";
-    int decryptedBlockTmp;
+    std::string decBlockTmp;
     for(char c : m)
     {
-        std::cout<<c<<std::endl;
         if(c == ' ')
         {
-            decryptedBlockTmp = dechiffrer(std::stoi(blocTmp), privKey);
-            decrypted.append(std::to_string(decryptedBlockTmp));
+            decBlockTmp = std::to_string(dechiffrer(std::stoi(blocTmp), privKey));
+            std::string dec_filled = std::string(tailleBloc - decBlockTmp.length(), '0') + decBlockTmp;
+            decrypted.append(dec_filled);
             blocTmp = "";
-            std::cout<<"decryptedBlockTmp = "<<decryptedBlockTmp<<std::endl;
         }
         else
         {
             blocTmp.append(std::to_string(c - 48)); //numbers in ascii starts at 48
-            std::cout<<"blocTmp="<<blocTmp<<std::endl;//debug
         }
-        std::cout<<decrypted<<std::endl;//debug
         
     }
-    decryptedBlockTmp = dechiffrer(std::stoi(blocTmp), privKey);
-    decrypted.append(std::to_string(decryptedBlockTmp) + " ");
+    decBlockTmp = std::to_string(dechiffrer(std::stoi(blocTmp), privKey));
+    std::string dec_filled = std::string(tailleBloc - decBlockTmp.length(), '0') + decBlockTmp;
+    decrypted.append(dec_filled);
 
-    std::cout<<decrypted<<std::endl;//debug
-    std::cout<<"2eme PARTIE"<<std::endl;//debug
-
-
+//2eme partie
 
 
     std::vector<std::string> blocs;
@@ -125,7 +118,7 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
     while(i >= 0)
     {
         --i;
-        pos = c % tailleBloc;
+        pos = c % (tailleBloc - 1); //parce qu'on veut des codes ascii => [0;127]
         // ca fait 0 1 2 3, si pos == 0, alors on fait (++) + une nouvelle chaine, sinon on append
         if(pos == 0 && !blocTmp.empty())
         {
@@ -140,8 +133,13 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
         }
     }
 
-    for(int i = blocs.size() - 1 ; i >= 0 ; --i) //debug
-        std::cout<<blocs[i]<<std::endl;
+    std::string res = "";
+    for(int i = blocs.size() - 1 ; i >= 0 ; --i)
+    {
+        char c = std::stoi(blocs[i]);
+        res.push_back(c);
+    }
+    return res;
 }
 
 //on suppose que le string est conforme
