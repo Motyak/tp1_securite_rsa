@@ -92,10 +92,19 @@ int chiffrer(int m, std::pair<int,llong> pubKey)
 //le message clair est un string
 std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
 {
-    std::vector<int> blocs;
+    // std::vector<int> blocs;
+    std::vector<std::string> blocs;
     std::string strMsg = "";
     for(char c : m)
-        strMsg.append(std::to_string(c));
+    {
+        std::string asciiCode = std::to_string(c);
+        int tailleAscii = 3;
+        std::string filled = std::string(tailleAscii - asciiCode.size(), '0') + asciiCode;
+        strMsg.append(filled);
+    }
+        
+
+    std::cout<<strMsg<<std::endl;//debug
 
     std::string blocTmp = "";
     int i = strMsg.size();
@@ -109,7 +118,7 @@ std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
         if(pos == 0 && !blocTmp.empty())
         {
             // ajout du bloc précédent
-            blocs.push_back(std::stoi(blocTmp));
+            blocs.push_back(blocTmp);
             blocTmp = "";
         }
         if(i > -1)
@@ -118,19 +127,28 @@ std::string chiffrer(std::string m, int tailleBloc, std::pair<int,llong> pubKey)
             ++c;
         }
     }
+    std::cout<<"pre reste="<<std::endl;
+    for(std::string s : blocs)  //debug
+        std::cout<<s<<std::endl;
 
     // ajout du reste
     if(pos != 0)
-        blocs.push_back(std::stoi(blocTmp));
+        blocs.push_back(blocTmp);
+
+        std::cout<<"post reste="<<std::endl;
+    for(std::string s : blocs)  //debug
+        std::cout<<s<<std::endl;
 
 
     // on chiffre les blocs et on les append dans une chaine resultat, en les separant par des espaces
     std::string res = "";
     for(int i = blocs.size() - 1 ; i > 0 ; --i)
     {
-        res.append(std::to_string(chiffrer(blocs[i], pubKey)) + " ");
+        int bloc = std::stoi(blocs[i]);
+        res.append(std::to_string(chiffrer(bloc, pubKey)) + " ");
     }
-    res.append(std::to_string(chiffrer(blocs[0], pubKey)));
+    int bloc = std::stoi(blocs[0]);
+    res.append(std::to_string(chiffrer(bloc, pubKey)));
     
     return res;
 }

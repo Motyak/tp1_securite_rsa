@@ -16,15 +16,15 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
 // g++ -o bin/decrypt src/decrypt.cpp && bin/decrypt "45067 57433 36197" "$(< priv.key)"
 int main(int argc, char* argv[])
 {
-    if(argc != 3 || !validKeyFormat(argv[2]))
-    {
-        std::cout << "Syntaxe : encrypt *msg* *cle_privee*" << std::endl;
-        std::cout << "\t'cle_privee' doit avoir comme format : 'd,n'" << std::endl;
-        return -1;
-    }
+    // if(argc != 3 || !validKeyFormat(argv[2]))
+    // {
+    //     std::cout << "Syntaxe : encrypt *msg* *cle_privee*" << std::endl;
+    //     std::cout << "\t'cle_privee' doit avoir comme format : 'd,n'" << std::endl;
+    //     return -1;
+    // }
 
     const int TAILLE_BLOC = 4;  //1 de plus que necessaire, ASCII -> [0-127]
-    std::cout<<dechiffrer(argv[1], TAILLE_BLOC, getKeyFromString(argv[2]))<<std::endl;
+    std::cout << dechiffrer(argv[1], TAILLE_BLOC, getKeyFromString(argv[2])) << std::endl;
 
     return 0;
 }
@@ -133,14 +133,24 @@ std::string dechiffrer(std::string m, int tailleBloc, std::pair<int,llong> privK
             blocTmp = decrypted[i] + blocTmp;
             ++c;
         }
+        std::cout<<blocTmp<<std::endl;//debug
     }
-    blocs.push_back(blocTmp);   //ajout du reste
+    if(!blocTmp.empty())
+        blocs.push_back(blocTmp);   //ajout du reste
+
+    //debug affichage du vector blocs
+    // for(std::string s : blocs)
+    // {
+    //     std::cout<<s<<std::endl;
+    // }
 
     std::string res = "";
     for(int i = blocs.size() - 1 ; i >= 0 ; --i)
     {
+        std::cout<<blocs[i]<<std::endl;
         char c = std::stoi(blocs[i]);
-        res.push_back(c);
+        if(c != 0)
+            res.push_back(c);
     }
     return res;
 }
