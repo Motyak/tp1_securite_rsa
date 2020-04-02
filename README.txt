@@ -20,7 +20,7 @@ Pour construire les executables, faire un 'make' à la racine.
         2- Je calcule n en faisant le produit de p et q, je calcule phi(n) en faisait (p-1).(q-1).
         3- Je génère un couple e et d à partir de phi(n).
             Je commence par calculer une liste de 20 candidats de cette manière :
-            {1*phi(n)+1, 2*phi(n)+2, ... 20*phi(n)+20}
+            {1*phi(n)+1, 2*phi(n)+1, ... 20*phi(n)+1}
                 Je cherche parmi la liste de candidats un nombre factorisable en exactement 
                 deux nombres distincts.  Ca sera e et d.
         4- La clé publique sera (e,n), tandis que la clé privée sera (d,n).
