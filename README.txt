@@ -74,8 +74,15 @@ Pour construire les executables, faire un 'make' à la racine.
     Si tout fonctionne, la personne B devrait retrouver le message clair envoyé par la personne A.
 
 4.Taille petite :
+Comme la valeur de n est assez petite, il est facile de retrouver la factorisation.
+En trouvant la factorisation on peut ensuite calculer phi(n), et donc retrouver
+la clé privée en calculant d à partir de e et phi(n) avec une inversion modulaire.
 
-...
+-Pour le premier on a n = 13289.
+On trouve 13289 = 97 * 137 ; phi(n) = 96 * 136 = 13056.
+d = 3797 ; donc la clé privée est (3797,13289)
+Le message m, déchiffré avec la clé privée, donne :
+m = [5424 6221 2423 1662 1023 1362 2917 1023 2028 6215 2427 6210 2121 6229 1714 6215 1828 1762]
 
 5.Chiffrement d'un texte :
 
@@ -104,3 +111,15 @@ Pour construire les executables, faire un 'make' à la racine.
         en partant de la droite.
         4- Je convertis chaque bloc, correspondant à un code ASCII, en son caractère correspondant.
 
+7.Attaque brute :
+    Fichier utilisé :
+        - src/attaques/factorisation : pour trouver la factorisation d'un module n aléatoire
+
+    Explication du code :
+
+        -Pour trouver la factorisation d'un module n :
+        1- Je commence ajouter dans une liste tous les nombres premiers compris
+            entre 1 et n.
+        2- Puis, pour i et j itérant dans cette liste, je calcule i * j et je vérifie si
+            le résultat est égal à n. J'incrémente j après chaque calcul et i après chaque 
+            itération de liste.
