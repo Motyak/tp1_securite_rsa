@@ -1,8 +1,8 @@
 CC=g++
 # CFLAGS=--std=c++11
-SRC=src/genKeys.cpp src/numbers/encrypt.cpp src/numbers/decrypt.cpp src/text/encrypt.cpp src/text/decrypt.cpp
-EXEC=bin/genKeys bin/numbers/encrypt bin/numbers/decrypt bin/text/encrypt bin/text/decrypt
-DIRS=bin bin/numbers bin/text
+SRC=src/genKeys.cpp src/numbers/encrypt.cpp src/numbers/decrypt.cpp src/text/encrypt.cpp src/text/decrypt.cpp src/attaques/factorisation.cpp
+EXEC=bin/genKeys bin/numbers/encrypt bin/numbers/decrypt bin/text/encrypt bin/text/decrypt bin/attaques/factorisation
+DIRS=bin bin/numbers bin/text bin/attaques
 
 all: $(EXEC)
 
@@ -20,6 +20,9 @@ bin/text/encrypt: src/text/encrypt.cpp
 
 bin/text/decrypt: src/text/decrypt.cpp
 	$(CC) -o bin/text/decrypt src/text/decrypt.cpp
+
+bin/attaques/factorisation: src/attaques/factorisation.cpp
+	$(CC) -o bin/attaques/factorisation src/attaques/factorisation.cpp
 
 clean:
 	rm -rf bin
