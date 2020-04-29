@@ -109,10 +109,12 @@ llong generatePrime(int nbOfBits)
 	bool prime = false;
 	llong number;
 	std::random_device random;
+    int rand;
 	while(!prime)
 	{
-		//on genere un nombre aléatoire, composé de n bits
-		number = random() % (1<<nbOfBits);
+		//on genere un nombre aléatoire, composé de n bits, min 2^(n-1)
+        number = random() % (1u<<nbOfBits);
+        number |= (1u<<(nbOfBits - 1));
 		
 		//on test si il est premier
 		prime = isPrime(number);
@@ -191,7 +193,7 @@ std::pair<int,int> calculate_e_and_d(int phin)
 
 std::array<std::pair<int,llong>,2> generateKeys()
 {
-    const int NB_BITS = 10;
+    const int NB_BITS = 8;
 
     std::pair<llong, llong> primes = generatePrimes(NB_BITS);
     int p = primes.first, q = primes.second;
